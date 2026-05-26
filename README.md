@@ -60,7 +60,9 @@ Favorites + hide. Keep mental space clear.
 
 1. Clone the [template](https://github.com/ChengyueWang/agent-repo-shell-template) (click *Use this template* on GitHub). You get the directory layout, sample content, and Claude Code session capture pre-wired.
 2. Install the extension — `Cmd/Ctrl+Shift+X` → search **Agent Repo Shell**.
-3. **File → Open Folder...** → pick the shell repo → click the <img src="icon.png" width="20" alt="pet" /> icon in the editor title bar (top-right) to open the panel. **Done!** *No icon?* Run `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**.
+3. **File → Open Folder...** → pick the shell repo → click the <img src="icon.png" width="20" alt="pet" /> icon in the editor title bar (top-right) to open the panel. **Done!**
+
+   > *No icon?* Run `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**.
 
 ## License
 
