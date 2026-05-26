@@ -5,6 +5,7 @@
   "version": "0.0.3",
   "publisher": "ChengyueWang",
   "license": "MIT",
+  "preview": true,
   "engines": {
     "vscode": "^1.74.0"
   },
