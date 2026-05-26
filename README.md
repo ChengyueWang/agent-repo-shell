@@ -54,8 +54,6 @@ Favorites + hide. Keep mental space clear.
 
 ![pet04 ascii familiar](images/pet04.gif)
 
-Pixel orb and ASCII familiar. 7 moods each.
-
 ---
 
 ## Install
