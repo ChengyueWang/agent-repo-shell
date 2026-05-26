@@ -16,37 +16,49 @@ A doc-centric workspace for agentic coding.
 
 Two-level github repos. Brain outside, artifacts inside. Keep all of your context in one root.
 
-![](images/hero.png)
+<img src="images/hero.png" width="85%" alt="agent repo shell teaser" />
+
+---
 
 ## 📝 Markdown Like Notion
 
 Stop bouncing between preview and source. Just edit/review in place.
 
-![](images/edit.gif)
+<img src="images/edit.gif" width="85%" alt="edit markdown in place" />
+
+---
 
 ## 🎨 Sketch Anywhere, AI Sees It
 
 Text not enough to express your idea? Just draw it!
 
-![](images/draw.gif)
+<img src="images/draw.gif" width="85%" alt="draw on docs" />
+
+---
 
 ## 🔀 Code as Flowchart
 
 We knew you don't read code anymore. But just in case — here's the flowchart.
 
-![](images/overview.gif)
+<img src="images/overview.gif" width="85%" alt="mermaid call graph per file" />
+
+---
 
 ## 🤖 Any AI, Just Copy
 
 Markdown out. Paste into whatever AI you trust this week.
 
-![](images/copy.gif)
+<img src="images/copy.gif" width="85%" alt="copy markdown into any AI chat" />
+
+---
 
 ## 🧠 ADHD-Friendly Sidebar
 
 Favorites + hide. Keep mental space clear.
 
-![](images/sidebar.gif)
+<img src="images/sidebar.gif" width="85%" alt="filter + favorites + hide" />
+
+---
 
 ## 🐾 Meet Your Pets
 
