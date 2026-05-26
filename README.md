@@ -20,7 +20,7 @@ Brain outside, code inside. No context switch.
 
 ## 📝 Markdown like Notion
 
-<!-- ![](images/edit.gif) -->
+![](images/edit.gif)
 
 Read AND edit inline. No mode toggle.
 
