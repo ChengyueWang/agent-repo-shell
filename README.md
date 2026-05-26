@@ -12,43 +12,43 @@ A doc-centric workspace for agentic coding.
 
 ---
 
-## 📦 Agent shell wraps your repo
+## 📦 AGENT SHELL WRAPS YOUR REPO
+
+Two-level github repos. Brain outside, artifacts inside. Keep all of your context in one root.
 
 ![](images/hero.png)
 
-Brain outside, code inside. No context switch.
-
-## 📝 Markdown like Notion
-
-![](images/edit.gif)
+## 📝 MARKDOWN LIKE NOTION
 
 Read AND edit inline. No mode toggle.
 
-## 🎨 Sketch anywhere, AI sees it
+![](images/edit.gif)
 
-![](images/draw.gif)
+## 🎨 SKETCH ANYWHERE, AI SEES IT
 
 Draw on docs → auto-snap for vision AI.
 
-## 🔀 Code as flowchart
+![](images/draw.gif)
+
+## 🔀 CODE AS FLOWCHART
+
+I knew you don't read code anymore... But in case you happen to want.. Mermaid graph per file. Click to jump.
 
 ![](images/overview.gif)
 
-Mermaid graph per file. Click to jump.
-
-## 🤖 Any AI, just copy
-
-![](images/copy.gif)
+## 🤖 ANY AI, JUST COPY
 
 Output is markdown. Drop into Claude / Cursor / GPT.
 
-## 🧠 ADHD-friendly Sidebar
+![](images/copy.gif)
 
-![](images/sidebar.gif)
+## 🧠 ADHD-FRIENDLY SIDEBAR
 
 Favorites + hide. Keep mental space clear.
 
-## 🐾 Meet Your Pets
+![](images/sidebar.gif)
+
+## 🐾 MEET YOUR PETS
 
 <img src="images/pet03.gif" alt="Pet03 pixel orb" width="50%" />
 
@@ -56,12 +56,12 @@ Favorites + hide. Keep mental space clear.
 
 ---
 
-## Get started
+## GET STARTED
 
 1. Clone the [template](https://github.com/ChengyueWang/agent-repo-shell-template) (click *Use this template* on GitHub). You get the directory layout, sample content, and Claude Code session capture pre-wired.
 2. Install the extension — `Cmd/Ctrl+Shift+X` → search **Agent Repo Shell**.
 3. Open the folder, run `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**.
 
-## License
+## LICENSE
 
 MIT. [Dev docs](https://github.com/ChengyueWang/agent-repo-shell/blob/main/DEVELOPMENT.md)
