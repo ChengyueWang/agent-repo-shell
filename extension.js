@@ -3680,12 +3680,14 @@ ALWAYS_SHOW.forEach(d => {
 // Collapsed-state persistence keyed by section name.
 const collapsedKey = 'collapsedSections';
 const collapsed = new Set(JSON.parse(localStorage.getItem(collapsedKey) || '[]'));
-// Lazy folders use opposite semantics: default CLOSED, only paths the user
-// has explicitly opened are remembered. Without this, expanding one folder
-// cascades open every nested folder the user has never touched, which
-// triggers a flood of requestFolderContents on each chevron click.
-const expandedLazyKey = 'expandedLazyFolders';
-const expandedLazy = new Set(JSON.parse(localStorage.getItem(expandedLazyKey) || '[]'));
+// Lazy folders default CLOSED. We track which paths the user has explicitly
+// opened in the CURRENT session only — intentionally NOT persisted to
+// localStorage. If we persisted, every previously-opened path would re-open
+// on the next webview rebuild (file-watcher refresh, reload, etc.), firing
+// N parallel requestFolderContents and looking like a cascade. Session-only
+// means each panel open starts clean: lazy folders are closed until you
+// click them this time.
+const expandedLazy = new Set();
 function makeSection(name, dataPath, dataKind) {
   const det = document.createElement('details');
   det.className = 'section';
@@ -3896,8 +3898,13 @@ function makeLazyFolder(f) {
     } else {
       expandedLazy.delete(f.path);
     }
-    localStorage.setItem(expandedLazyKey, JSON.stringify([...expandedLazy]));
+    // Session-only — intentionally not persisted (see comment at expandedLazy declaration).
   });
+
+  // Also actively purge any stale persisted value left over from earlier
+  // versions of the extension that DID persist (so users coming from those
+  // versions don't keep the same state forever).
+  try { localStorage.removeItem('expandedLazyFolders'); } catch (_) {}
 
   // Eagerly kick off the load only if we're starting open (i.e. the user
   // explicitly opened this path in a prior session).
