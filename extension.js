@@ -740,18 +740,37 @@ function openView(context) {
   // in-progress edits — `editLock` defers any refreshes until they save
   // or cancel (the editEnd message clears the lock and flushes a
   // single refresh if any was pending).
-  const watcher = vscode.workspace.createFileSystemWatcher('**/*');
+  // Scoped watch — only the brain dirs (specs, tasks, etc.) trigger a
+  // full sidebar rebuild. The user's active worktrees in targets/ can
+  // generate enormous file churn (builds, logs, gitops) that used to
+  // saturate the extension host with refresh() calls, starving the
+  // requestFolderContents responses. Lazy folders inside targets/ still
+  // load on click via collectFolderContents — they just don't auto-refresh
+  // when something inside them changes.
+  const watchPattern = new vscode.RelativePattern(
+    root,
+    '{specs,tasks,skills,knowledge,references,history,tools,.claude}/**/*'
+  );
+  const rootPattern = new vscode.RelativePattern(root, '*');
+  const watcher = vscode.workspace.createFileSystemWatcher(watchPattern);
+  const rootWatcher = vscode.workspace.createFileSystemWatcher(rootPattern);
   let refreshTimer = 0;
   let editLock = false;
   let refreshPending = false;
   const onChange = () => {
     if (editLock) { refreshPending = true; return; }
     clearTimeout(refreshTimer);
-    refreshTimer = setTimeout(refresh, 250);
+    // Debounce raised from 250ms → 800ms: even within the brain dirs, fast
+    // hook writes to history/ can fire in bursts; coalescing more keystrokes
+    // worth of changes into one rebuild keeps the UI responsive.
+    refreshTimer = setTimeout(refresh, 800);
   };
   watcher.onDidCreate(onChange);
   watcher.onDidChange(onChange);
   watcher.onDidDelete(onChange);
+  rootWatcher.onDidCreate(onChange);
+  rootWatcher.onDidChange(onChange);
+  rootWatcher.onDidDelete(onChange);
   // Bind the lock helpers onto the panel-scoped message handler below.
   panel._setEditLock = (locked) => {
     editLock = locked;
@@ -4705,10 +4724,13 @@ window.addEventListener('message', (event) => {
   const msg = event.data;
   if (!msg || typeof msg !== 'object') return;
   if (msg.type === 'folderContents') {
-    const det = list.querySelector(
+    // A path can appear in BOTH the favorites section and its regular tree
+    // location (the user favorited a deep folder). querySelectorAll catches
+    // both detail elements so neither stays stuck on "loading…".
+    const dets = list.querySelectorAll(
       'details.lazy-folder[data-path="' + CSS.escape(msg.path) + '"]'
     );
-    if (det) renderLazyFolderBody(det, msg.path, msg.items);
+    dets.forEach(det => renderLazyFolderBody(det, msg.path, msg.items));
   } else if (msg.type === 'mdHtml') {
     // Deferred md render completed — cache on FILES and re-render if the
     // user is still on this file.
@@ -4734,14 +4756,15 @@ window.addEventListener('message', (event) => {
       }
     }
   } else if (msg.type === 'folderContentsError') {
-    const det = list.querySelector(
+    // Same multi-element fix as folderContents above.
+    const dets = list.querySelectorAll(
       'details.lazy-folder[data-path="' + CSS.escape(msg.path) + '"]'
     );
-    if (det) {
+    dets.forEach(det => {
       const body = det.querySelector('.lazy-body');
       if (body) body.innerHTML = '<span class="lazy-loading">failed: ' + esc(msg.error) + '</span>';
       delete det.dataset.loadState;  // allow retry on next toggle
-    }
+    });
   } else if (msg.type === 'syncDone') {
     // Extension finished the Sync. The file watcher will trigger a webview
     // refresh momentarily; in the meantime render the fresh overview directly
