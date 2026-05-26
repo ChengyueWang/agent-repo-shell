@@ -77,7 +77,7 @@ Overviews are cached as JSON sidecars in `.code-render/<path>.json`, so subseque
 
 The panel ships with **two pixel companions** — both fully animated, with 7 moods and optional accessories. They live in the bottom-right corner, blink, breathe, and react to what you're doing.
 
-<!-- ![pets](https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/images/pets.gif) -->
+![pets](images/pets.gif)
 
 - **Pet03** — 16×16 pixel orb. Coral palette. The default.
 - **Pet04** — 3-line ASCII familiar in monospace. For the terminal aesthetic.
