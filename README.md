@@ -4,7 +4,7 @@
 
 # Agent Repo Shell
 
-Browse your repo as a navigable webview.
+A doc-centric workspace for agentic coding.
 
 [![Marketplace](https://img.shields.io/visual-studio-marketplace/v/ChengyueWang.agent-repo-shell?label=marketplace&color=F08A65)](https://marketplace.visualstudio.com/items?itemName=ChengyueWang.agent-repo-shell) · [![License](https://img.shields.io/badge/license-MIT-F08A65.svg)](LICENSE)
 
@@ -12,35 +12,47 @@ Browse your repo as a navigable webview.
 
 ---
 
-## 📂 Sidebar tree
+## 🪆 Agent shell wraps your repo
 
-<!-- ![](images/sidebar.gif) -->
+<!-- ![](images/shell-diagram.svg) -->
 
-Filter, favorite, hide.
+Brain outside, code inside. No context switch.
 
-## 📄 File overview
+## 📝 Markdown like Notion
+
+<!-- ![](images/edit.gif) -->
+
+Read AND edit inline. No mode toggle.
+
+## 🎨 Sketch anywhere, AI sees it
+
+<!-- ![](images/draw.gif) -->
+
+Draw on docs → auto-snap for vision AI.
+
+## 🧭 Code as flowchart
 
 <!-- ![](images/overview.gif) -->
 
-LSP call graph + functions.
+Mermaid graph per file. Click to jump.
 
-## 🔎 Find
+## 🤖 Any AI, just copy
 
-<!-- ![](images/find.gif) -->
+<!-- ![](images/copy.gif) -->
 
-Match count, ↑↓ to navigate.
+Output is markdown. Drop into Claude / Cursor / GPT.
 
-## 🐾 Pets
+## 🧠 ADHD-friendly Sidebar
+
+<!-- ![](images/sidebar.gif) -->
+
+Favorites + hide. Keep mental space clear.
+
+## 🐾 Meet Your Pets
 
 ![pets](images/pets.gif)
 
-Two pixel companions.
-
-## 💬 Sessions
-
-<!-- ![](images/sessions.gif) -->
-
-History rendered as chat.
+...and a pixel companion.
 
 ---
 
