@@ -38,7 +38,7 @@ Mermaid graph per file. Click to jump.
 
 ## 🤖 Any AI, just copy
 
-<!-- ![](images/copy.gif) -->
+![](images/copy.gif)
 
 Output is markdown. Drop into Claude / Cursor / GPT.
 
