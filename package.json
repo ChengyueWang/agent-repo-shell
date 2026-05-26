@@ -2,7 +2,7 @@
   "name": "agent-repo-shell",
   "displayName": "Agent Repo Shell",
   "description": "Browse an agentic / Claude Code workspace as a navigable webview — sidebar tree, LSP-powered file overviews, session history, favorites, hide, in-content find.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "ChengyueWang",
   "license": "MIT",
   "engines": {
@@ -30,6 +30,10 @@
   ],
   "main": "./extension.js",
   "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#F08A65",
+    "theme": "dark"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ChengyueWang/agent-repo-shell.git"

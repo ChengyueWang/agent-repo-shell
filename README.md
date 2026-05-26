@@ -1,39 +1,92 @@
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/icon.png" width="96" alt="Agent Repo Shell" />
+
 # Agent Repo Shell
 
-A VSCode webview that turns your workspace into a navigable "shell" — sidebar file tree, per-file overviews powered by the LSP, session history, favorites, hide, and in-content find. Designed for agentic / Claude Code style repos where you want a fast bird's-eye view of the whole project without endless folder clicking.
+**Browse your agentic / Claude-Code repo as a navigable webview** — file tree, LSP-powered file overviews, in-content find, with two pixel pets for company.
 
-## What it does
+[![Marketplace](https://img.shields.io/visual-studio-marketplace/v/ChengyueWang.agent-repo-shell?label=marketplace&color=F08A65)](https://marketplace.visualstudio.com/items?itemName=ChengyueWang.agent-repo-shell) · [![License](https://img.shields.io/badge/license-MIT-F08A65.svg)](LICENSE) · [![GitHub](https://img.shields.io/badge/github-source-F08A65?logo=github)](https://github.com/ChengyueWang/agent-repo-shell)
 
-- **Sidebar file tree** — folders, sub-folders, nested arbitrarily deep. Press `/` anywhere to filter by name.
-- **One-click open** — clicking a `.md` file renders it inline (with syntax-highlighted code blocks, GFM tables, Mermaid diagrams). Clicking any other file opens it in the editor AND renders a file overview in the panel.
-- **File overviews from the LSP** — for any code file the panel shows: title + module summary (from the leading doc), a Mermaid call-graph of intra-file functions, an accordion of every top-level function/class (signature, doc, call tree, "jump to definition"), cross-file "used by" references, and a TODO/FIXME scan. All sourced from `executeHoverProvider`, `executeDocumentSymbolProvider`, `prepareCallHierarchy`/`provideOutgoingCalls`, `executeReferenceProvider` — no markers in source, works on any language with an installed LSP.
-- **Favorites & Hide** — right-click any file or folder. Favorited items get a top section in the sidebar with parent-dir hints; hidden items drop out of the tree (toggle "show N hidden" in the eyebrow to unhide).
-- **Find in content** — `Ctrl/Cmd+F` opens a custom find widget (the native webview find widget is unreliable). Highlights matches, navigates with Enter / Shift+Enter, auto-opens parent `<details>` so matches inside collapsed sections are still reachable.
-- **Session history** — if your repo has a `history/` folder with session subdirectories containing `prompts.md` / `responses.md`, they're grouped into a single "history" sidebar section with each session rendered as a chat-style transcript.
-- **Auto-refresh** — when files change on disk, the panel rebuilds.
+</div>
 
-## Install
+<!--
+  HERO GIF — drop in once recorded:
+  ![hero](https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/images/hero.gif)
+-->
 
-### From the marketplace
-Search for "Agent Repo Shell" in the VSCode Extensions view, or install from the marketplace page.
+> A workspace browser for AI-coding workflows. Built for the kind of repos that hold your specs, tasks, sessions, and helper scripts alongside code — gives you a one-pane view of the whole thing without endless folder clicking.
 
-### From a .vsix (local install)
-```bash
-git clone https://github.com/ChengyueWang/agent-repo-shell.git
-cd agent-repo-shell
-npm install
-npm install -g @vscode/vsce
-vsce package
-code --install-extension agent-repo-shell-*.vsix
-```
+---
 
-## Usage
+## ✨ Highlights
 
-1. Open any folder in VSCode.
-2. `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**.
-3. The webview opens in the active editor column with your workspace tree on the left.
+- 📂 **Sidebar file tree** — arbitrary-depth nesting, instant fuzzy filter (`/`), right-click favorites & hide
+- 📄 **One-click open** — markdown renders inline; code files open in editor *and* render a structured overview in the panel
+- 🧭 **LSP file overviews** — title + summary, Mermaid call-graph, function accordion with signatures and call trees, "used by" references, TODO/FIXME scan
+- 🔎 **Find in content** — custom widget with match count and navigation (the native one is unreliable in webviews)
+- 💬 **Session history** — `history/<id>/{prompts,responses}.md` rendered as chat-style transcripts
+- 🐾 **Two pixel pets** — Pet03 (16×16 orb) and Pet04 (ASCII familiar), 7 moods, soft idle animations
+- 🔄 **Auto-refresh** on file changes
 
-### Keyboard shortcuts (inside the panel)
+---
+
+## 🗂 Browse your repo
+
+The sidebar mirrors your workspace tree but flattens the parts you don't care about. Press `/` anywhere in the panel to focus the filter — substring match against full paths, matches auto-expand their parent folders.
+
+<!-- ![sidebar](https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/images/sidebar.gif) -->
+
+Right-click any entry for **★ Favorites**, **Hide**, **Copy Path**, **Rename**, **Delete**. Favorited files surface in a top section with parent-dir hints (so two files named `ideas.md` in different folders are distinguishable at a glance). Hidden entries disappear from the tree; toggle "show N hidden" in the eyebrow to bring them back.
+
+---
+
+## 🔍 See any file at a glance
+
+Click any code file in the sidebar — instead of just opening it in the editor, the panel renders a *structured overview*:
+
+<!-- ![overview](https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/images/overview.gif) -->
+
+- **Title + summary** from the leading docstring / comment
+- **Mermaid call-graph** of intra-file functions (entry / mid / helper tiers, color-coded). Hover for one-line summary, click to jump to definition.
+- **Function accordion** — one row per top-level callable. Expand for signature, doc, "calls" and "called by" trees, and a → jump link.
+- **"Used by"** — workspace-wide references to this file's exports
+- **TODO / FIXME** scan over the source
+
+All sourced from VSCode's built-in LSP commands (`executeHoverProvider`, `executeDocumentSymbolProvider`, `prepareCallHierarchy`, `executeReferenceProvider`) — **no markers needed in your code, works on any language with an installed LSP**.
+
+Overviews are cached as JSON sidecars in `.code-render/<path>.json`, so subsequent clicks render instantly. A **Sync** button re-runs analysis when you've changed the file.
+
+---
+
+## 🔎 Find anywhere
+
+`Ctrl/Cmd+F` opens our own find widget (the native one is broken in webviews — confirmed via VSCode source review):
+
+<!-- ![find](https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/images/find.gif) -->
+
+- Live highlighting with match count (`1 of 12`)
+- `Enter` / `Shift+Enter` to navigate; ↑↓ buttons; `Esc` to close
+- Auto-opens collapsed `<details>` so matches inside accordions are still reachable
+- Survives sidebar rebuilds (after favorite/hide toggles)
+- Styled to match VSCode's editor find widget — picks up your theme automatically
+
+---
+
+## 🐾 Meet your pets
+
+The panel ships with **two pixel companions** — both fully animated, with 7 moods and optional accessories. They live in the bottom-right corner, blink, breathe, and react to what you're doing.
+
+<!-- ![pets](https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/images/pets.gif) -->
+
+- **Pet03** — 16×16 pixel orb. Coral palette. The default.
+- **Pet04** — 3-line ASCII familiar in monospace. For the terminal aesthetic.
+
+Moods: `idle` · `thinking` · `typing` · `success` · `celebrating` · `sleeping` · `error`. Accessories: `chef` · `beanie` · `headphones` · `antenna` · `party` · `sleep cap` · `bow`.
+
+---
+
+## ⌨️ Keyboard shortcuts (inside the panel)
 
 | Key | Action |
 |-----|--------|
@@ -41,26 +94,52 @@ code --install-extension agent-repo-shell-*.vsix
 | `Ctrl/Cmd+F` | Open find-in-content |
 | `Enter` / `Shift+Enter` | Next / previous match (in find) |
 | `Esc` | Close find / clear filter |
+| Right-click | Favorite / Hide / Copy Path / Rename / Delete |
 
-### Right-click menu
+---
 
-Right-click any sidebar entry to:
+## 📁 Conventions
 
-- **★ Add to Favorites** / **☆ Remove from Favorites**
-- **Hide** / **Unhide**
-- **Copy Path** / **Copy Relative Path**
-- **Rename** / **Delete** (greyed out for the workspace root)
+Most paths are opinionated defaults useful for "agent repo" style workspaces, but the extension works on any repo:
 
-## Conventions the extension expects
+| Path | Meaning |
+|------|---------|
+| `specs/`, `tasks/`, `skills/`, `references/`, `targets/` | Top-level folders shown as sidebar sections even when empty |
+| `history/<id>/{prompts,responses}.md` | Session transcripts auto-grouped into a "history" section, rendered as chat |
+| `tasks/{todo,doing,done}/<file>.md` | Task files get a state chip at the top-right; click to move between subfolders |
+| `.code-render/<path>.json` | Sidecar cache for file overviews; safe to commit (portable across machines) |
 
-Most of these are opinionated defaults useful for "agent repo" style workspaces but the extension works on any repo:
+---
 
-- `specs/`, `tasks/`, `skills/`, `references/`, `targets/` — top-level folders that show as sidebar sections even when empty.
-- `history/<session-id>/{prompts,responses}.md` — session transcripts auto-grouped under a "history" section.
-- `tasks/{todo,doing,done}/<file>.md` — when viewing a task file, a state chip appears at the top-right; clicking it moves the file between subfolders.
-- `.code-render/<path>.json` — optional sidecar JSONs cache the LSP overview so clicks render the overview instantly without re-running analysis. The Sync button on each overview rewrites them.
+## 📦 Install
 
-## Development
+**From the marketplace** (recommended):
+
+```
+Cmd/Ctrl+Shift+X → search "Agent Repo Shell" → Install
+```
+
+**From a `.vsix`**:
+
+```bash
+git clone https://github.com/ChengyueWang/agent-repo-shell.git
+cd agent-repo-shell
+npm install
+npx @vscode/vsce package
+code --install-extension agent-repo-shell-*.vsix
+```
+
+---
+
+## 🚀 Usage
+
+1. Open any folder in VSCode.
+2. `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**
+3. Browse, filter, click. Right-click for context menu.
+
+---
+
+## 🛠 Development
 
 ```bash
 git clone https://github.com/ChengyueWang/agent-repo-shell.git
@@ -68,16 +147,18 @@ cd agent-repo-shell
 npm install
 ```
 
-Open the folder in VSCode and press **F5**. A new "Extension Development Host" window launches with the extension loaded. Open any folder as the test workspace and run **Agent Repo Shell: Open View**.
+Open in VSCode, press **F5**. A new "Extension Development Host" launches with the extension loaded — open any folder as the test workspace and run **Agent Repo Shell: Open View**.
 
-Edits to `extension.js` require pressing the green reload button in the Dev Host window (or restart with F5).
+---
 
-## License
+## 📜 License
 
-MIT. See [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
 
-## Acknowledgements
+### Acknowledgements
 
-- Markdown rendering via [marked](https://github.com/markedjs/marked) + [highlight.js](https://github.com/highlightjs/highlight.js).
-- Diagrams via [Mermaid](https://github.com/mermaid-js/mermaid).
-- Star icon path adapted from [Heroicons](https://heroicons.com/) (MIT).
+- Markdown via [marked](https://github.com/markedjs/marked) + [highlight.js](https://github.com/highlightjs/highlight.js)
+- Diagrams via [Mermaid](https://github.com/mermaid-js/mermaid)
+- Anchored comments via [Recogito Text Annotator](https://github.com/recogito/text-annotator-js)
+- Star icon adapted from [Heroicons](https://heroicons.com/) (MIT)
+- Pet sprites are original pixel art
