@@ -44,7 +44,7 @@ Output is markdown. Drop into Claude / Cursor / GPT.
 
 ## 🧠 ADHD-friendly Sidebar
 
-<!-- ![](images/sidebar.gif) -->
+![](images/sidebar.gif)
 
 Favorites + hide. Keep mental space clear.
 
