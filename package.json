@@ -2,7 +2,7 @@
   "name": "agent-repo-shell",
   "displayName": "Agent Repo Shell",
   "description": "Bootstrap your agentic multi-repos project. Minimum distractions to iterate on specs. A VSCode panel to code like taking notes.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "ChengyueWang",
   "license": "MIT",
   "preview": true,
@@ -32,8 +32,8 @@
   "main": "./extension.js",
   "icon": "icon.png",
   "galleryBanner": {
-    "color": "#F08A65",
-    "theme": "dark"
+    "color": "#FBF8F2",
+    "theme": "light"
   },
   "repository": {
     "type": "git",

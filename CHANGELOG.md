@@ -2,6 +2,12 @@
 
 All notable changes to this extension are documented here.
 
+## [0.0.4]
+
+- Gallery banner: coral → cream (#FBF8F2) for a softer marketplace header.
+- README: final wording pass on tagline + section captions + caption-above-image layout + centered images (`<div align="center">`) + hero image at the top of the 📦 section.
+- `package.json` description rewritten to match the new tagline ("Bootstrap your agentic multi-repos project. Minimum distractions to iterate on specs. A VSCode panel to code like taking notes.")
+
 ## [0.0.3]
 
 - **One-click launch**: pet-icon button in the editor title bar (top-right of each editor tab) + a `$(layout-panel) Agent Repo Shell` status bar item (bottom-right) — both run `Open View` so you don't need to go through the command palette. Toggle the title-bar icon via `agentRepoShell.showEditorTitleIcon` (default true).
