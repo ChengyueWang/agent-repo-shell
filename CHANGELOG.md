@@ -2,6 +2,10 @@
 
 All notable changes to this extension are documented here.
 
+## [0.0.5]
+
+- Drop `preview: true` flag so the extension appears in default marketplace search (preview extensions can be filtered by some clients).
+
 ## [0.0.4]
 
 - Gallery banner: coral → cream (#FBF8F2) for a softer marketplace header.
