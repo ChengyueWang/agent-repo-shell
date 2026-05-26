@@ -50,9 +50,11 @@ Favorites + hide. Keep mental space clear.
 
 ## 🐾 Meet Your Pets
 
-![pets](images/pets.gif)
+![pet03 pixel orb](images/pet03.gif)
 
-...and a pixel companion.
+![pet04 ascii familiar](images/pet04.gif)
+
+Pixel orb and ASCII familiar. 7 moods each.
 
 ---
 
