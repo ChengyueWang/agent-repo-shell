@@ -12,43 +12,43 @@ A doc-centric workspace for agentic coding.
 
 ---
 
-## 📦 AGENT SHELL WRAPS YOUR REPO
+## 📦 Agent Shell Wraps Your Repo
 
 Two-level github repos. Brain outside, artifacts inside. Keep all of your context in one root.
 
 ![](images/hero.png)
 
-## 📝 MARKDOWN LIKE NOTION
+## 📝 Markdown Like Notion
 
 Read AND edit inline. No mode toggle.
 
 ![](images/edit.gif)
 
-## 🎨 SKETCH ANYWHERE, AI SEES IT
+## 🎨 Sketch Anywhere, AI Sees It
 
 Draw on docs → auto-snap for vision AI.
 
 ![](images/draw.gif)
 
-## 🔀 CODE AS FLOWCHART
+## 🔀 Code as Flowchart
 
 I knew you don't read code anymore... But in case you happen to want.. Mermaid graph per file. Click to jump.
 
 ![](images/overview.gif)
 
-## 🤖 ANY AI, JUST COPY
+## 🤖 Any AI, Just Copy
 
 Output is markdown. Drop into Claude / Cursor / GPT.
 
 ![](images/copy.gif)
 
-## 🧠 ADHD-FRIENDLY SIDEBAR
+## 🧠 ADHD-Friendly Sidebar
 
 Favorites + hide. Keep mental space clear.
 
 ![](images/sidebar.gif)
 
-## 🐾 MEET YOUR PETS
+## 🐾 Meet Your Pets
 
 <img src="images/pet03.gif" alt="Pet03 pixel orb" width="75%" />
 
@@ -56,12 +56,12 @@ Favorites + hide. Keep mental space clear.
 
 ---
 
-## GET STARTED
+## Get Started
 
 1. Clone the [template](https://github.com/ChengyueWang/agent-repo-shell-template) (click *Use this template* on GitHub). You get the directory layout, sample content, and Claude Code session capture pre-wired.
 2. Install the extension — `Cmd/Ctrl+Shift+X` → search **Agent Repo Shell**.
 3. Open the folder, run `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**.
 
-## LICENSE
+## License
 
 MIT. [Dev docs](https://github.com/ChengyueWang/agent-repo-shell/blob/main/DEVELOPMENT.md)
