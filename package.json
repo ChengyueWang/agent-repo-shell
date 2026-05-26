@@ -2,7 +2,7 @@
   "name": "agent-repo-shell",
   "displayName": "Agent Repo Shell",
   "description": "Browse an agentic / Claude Code workspace as a navigable webview — sidebar tree, LSP-powered file overviews, session history, favorites, hide, in-content find.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "ChengyueWang",
   "license": "MIT",
   "engines": {
@@ -52,6 +52,10 @@
       {
         "command": "agentRepoShell.previewOverview",
         "title": "Agent Repo Shell: Preview File Overview"
+      },
+      {
+        "command": "agentRepoShell.installSessionHook",
+        "title": "Agent Repo Shell: Install Session Capture Hook"
       }
     ]
   },

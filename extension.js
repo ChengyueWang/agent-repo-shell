@@ -1428,6 +1428,78 @@ async function previewOverview() {
   });
 }
 
+// Install the Claude Code Stop-hook that captures sessions into
+// history/<id>/{prompts,responses}.md (which the webview renders as chat).
+// Copies the bundled save-assistant-response.py into the workspace's
+// tools/hooks/ and registers it in .claude/settings.json. Idempotent —
+// if the hook is already registered, doesn't add a duplicate.
+async function installSessionHook(context) {
+  const folders = vscode.workspace.workspaceFolders;
+  if (!folders || folders.length === 0) {
+    vscode.window.showErrorMessage(
+      'Agent Repo Shell: open a workspace folder first.'
+    );
+    return;
+  }
+  const root = folders[0].uri.fsPath;
+  const hookRel = 'tools/hooks/save-assistant-response.py';
+  const hookCmd = 'python3 $CLAUDE_PROJECT_DIR/' + hookRel;
+
+  const confirm = await vscode.window.showInformationMessage(
+    `Install Claude Code session capture hook?\n\n` +
+    `Will copy:\n  → ${hookRel}\n` +
+    `And register a Stop hook in:\n  → .claude/settings.json\n\n` +
+    `Next time you use Claude Code in this workspace, every turn will ` +
+    `be captured to history/<session-id>/ and rendered in the panel.`,
+    { modal: true },
+    'Install'
+  );
+  if (confirm !== 'Install') return;
+
+  const hookSrc = path.join(context.extensionPath, 'resources', 'hooks', 'save-assistant-response.py');
+  const hookDest = path.join(root, hookRel);
+  try {
+    await fs.promises.mkdir(path.dirname(hookDest), { recursive: true });
+    await fs.promises.copyFile(hookSrc, hookDest);
+    await fs.promises.chmod(hookDest, 0o755);  // not strictly needed for `python3 …` invocation
+  } catch (e) {
+    vscode.window.showErrorMessage('Hook copy failed: ' + e.message);
+    return;
+  }
+
+  const settingsPath = path.join(root, '.claude', 'settings.json');
+  let settings = {};
+  try {
+    settings = JSON.parse(await fs.promises.readFile(settingsPath, 'utf8'));
+  } catch (_) { /* missing or invalid — we'll create */ }
+  settings.hooks = settings.hooks || {};
+  settings.hooks.Stop = settings.hooks.Stop || [];
+  const alreadyRegistered = settings.hooks.Stop.some(group =>
+    (group.hooks || []).some(h => h.command === hookCmd)
+  );
+  if (!alreadyRegistered) {
+    settings.hooks.Stop.push({
+      hooks: [{ type: 'command', command: hookCmd }],
+    });
+    try {
+      await fs.promises.mkdir(path.dirname(settingsPath), { recursive: true });
+      await fs.promises.writeFile(
+        settingsPath,
+        JSON.stringify(settings, null, 2) + '\n'
+      );
+    } catch (e) {
+      vscode.window.showErrorMessage('settings.json write failed: ' + e.message);
+      return;
+    }
+  }
+
+  vscode.window.showInformationMessage(
+    alreadyRegistered
+      ? 'Hook installed. (settings.json already had the registration.)'
+      : 'Hook installed. Restart Claude Code to activate.'
+  );
+}
+
 function activate(context) {
   // Stamp `done` on legacy review folders that pre-date the .state system
   // so subsequent submits don't merge into them as if they were drafts.
@@ -1438,6 +1510,7 @@ function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand('agentRepoShell.openView', () => openView(context)),
     vscode.commands.registerCommand('agentRepoShell.previewOverview', previewOverview),
+    vscode.commands.registerCommand('agentRepoShell.installSessionHook', () => installSessionHook(context)),
   );
 }
 
