@@ -3,7 +3,7 @@
   "displayName": "Agent Repo Shell",
   "description": "Browse an agentic / Claude Code workspace as a navigable webview — sidebar tree, LSP-powered file overviews, session history, favorites, hide, in-content find.",
   "version": "0.0.1",
-  "publisher": "chengyuewang",
+  "publisher": "ChengyueWang",
   "license": "MIT",
   "engines": {
     "vscode": "^1.74.0"
