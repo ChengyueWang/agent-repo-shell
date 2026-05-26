@@ -29,6 +29,7 @@
     "navigation"
   ],
   "main": "./extension.js",
+  "icon": "icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/ChengyueWang/agent-repo-shell.git"
