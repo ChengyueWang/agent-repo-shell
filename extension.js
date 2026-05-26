@@ -205,47 +205,62 @@ const LAZY_DEPTH = 2;
 // sidecar for code files. Returns null if the file should be skipped
 // (unsupported extension or unreadable). Shared between collectFiles and
 // collectFolderContents.
-function processFileEntry(root, full, rel) {
+// Build a FILES entry for a single source file.
+//
+// `light=true` (used by collectFolderContents, called on lazy-folder expand)
+// skips the two expensive operations:
+//   - marked.parse on every .md file
+//   - sidecar JSON parse on every code file
+// The webview defers both to first-click via requestMdHtml /
+// requestSidecarOverview messages, so expanding a folder with many files is
+// O(N) tiny classifications instead of O(N) heavy parses.
+//
+// `light=false` keeps the eager behaviour for the initial collectFiles walk
+// (a small set of files at levels 0-1, where instant click matters more).
+function processFileEntry(root, full, rel, light = false) {
   const name = path.basename(full);
   const meta = classify(name);
   if (!meta) return null;
   const key = rel.split(path.sep).join('/');
   const obj = { kind: meta.kind, lang: meta.lang };
   if (meta.kind === 'md') {
-    try {
-      const text = fs.readFileSync(full, 'utf8');
-      obj.html = marked.parse(text);
-    } catch (_) { return null; }
-    // Pre-count past reviews so the webview can show a "📝 N reviews" badge
-    // without an extra round-trip. Now scans the per-file folder layout
-    // (REVIEW_ROOT/<path-without-ext>/<ts>/) so this works for ANY file,
-    // not just specs/.
-    const srcNoExt = key.replace(/\.[^.]+$/, '');
-    const reviewDir = path.join(root, REVIEW_ROOT, srcNoExt);
-    try {
-      const past = fs.readdirSync(reviewDir, { withFileTypes: true })
-        .filter(e => e.isDirectory() && /^\d{8}-\d{6}/.test(e.name));
-      if (past.length) obj.reviewCount = past.length;
-    } catch (_) { /* no reviews yet */ }
+    if (light) {
+      // Defer marked.parse + reviewCount scan to first click. Carry the
+      // absolute path so the deferred fetch can resolve without re-walking.
+      obj.abs = full;
+    } else {
+      try {
+        const text = fs.readFileSync(full, 'utf8');
+        obj.html = marked.parse(text);
+      } catch (_) { return null; }
+      const srcNoExt = key.replace(/\.[^.]+$/, '');
+      const reviewDir = path.join(root, REVIEW_ROOT, srcNoExt);
+      try {
+        const past = fs.readdirSync(reviewDir, { withFileTypes: true })
+          .filter(e => e.isDirectory() && /^\d{8}-\d{6}/.test(e.name));
+        if (past.length) obj.reviewCount = past.length;
+      } catch (_) { /* no reviews yet */ }
+    }
   } else {
     obj.abs = full;
-    // Preload the .agent-repo-shell/code-render/<rel>.json sidecar so a click
-    // can render the overview synchronously, no extension round-trip.
-    const sidecar = path.join(root, CODE_RENDER_DIR, rel + '.json');
-    try {
-      const text = fs.readFileSync(sidecar, 'utf8');
-      const overview = JSON.parse(text);
-      overview.file = full;
-      overview.path = key;
-      if (Array.isArray(overview.usedBy)) {
-        for (const u of overview.usedBy) {
-          if (u && typeof u.file === 'string') {
-            u.absPath = path.join(root, u.file);
+    if (!light) {
+      const sidecar = path.join(root, CODE_RENDER_DIR, rel + '.json');
+      try {
+        const text = fs.readFileSync(sidecar, 'utf8');
+        const overview = JSON.parse(text);
+        overview.file = full;
+        overview.path = key;
+        if (Array.isArray(overview.usedBy)) {
+          for (const u of overview.usedBy) {
+            if (u && typeof u.file === 'string') {
+              u.absPath = path.join(root, u.file);
+            }
           }
         }
-      }
-      obj.overview = overview;
-    } catch (_) { /* no sidecar — code file is "not initialized" */ }
+        obj.overview = overview;
+      } catch (_) { /* no sidecar — code file is "not initialized" */ }
+    }
+    // light: sidecar load deferred to first click (requestSidecarOverview)
   }
   return { key, obj };
 }
@@ -295,7 +310,7 @@ function collectFolderContents(root, folderRel) {
     if (entry.isDirectory()) {
       items[key] = { kind: 'folder', lazy: true, abs: full };
     } else if (entry.isFile()) {
-      const r = processFileEntry(root, full, rel);
+      const r = processFileEntry(root, full, rel, /*light=*/true);
       if (r) items[r.key] = r.obj;
     }
   }
@@ -472,6 +487,48 @@ function openView(context) {
       } catch (e) {
         panel.webview.postMessage({
           type: 'folderContentsError', path: msg.path, error: String(e.message || e),
+        });
+      }
+    } else if (msg.type === 'requestMdHtml') {
+      // Deferred markdown render — called by the webview when the user
+      // clicks an .md file whose `html` was skipped during light-mode
+      // folder expansion. Read + marked.parse on demand.
+      try {
+        const abs = path.resolve(root, msg.path);
+        const text = await fs.promises.readFile(abs, 'utf8');
+        panel.webview.postMessage({
+          type: 'mdHtml', path: msg.path, html: marked.parse(text),
+        });
+      } catch (e) {
+        panel.webview.postMessage({
+          type: 'mdHtml', path: msg.path,
+          html: '<p style="color:var(--clay)">render failed: ' + escapeAttr(String(e.message || e)) + '</p>',
+        });
+      }
+    } else if (msg.type === 'requestSidecarOverview') {
+      // Deferred sidecar load — called when the user clicks a code file
+      // whose `overview` was skipped during light-mode folder expansion.
+      // Returns null if no sidecar exists (webview falls back to the
+      // "not initialized" view, same as before).
+      try {
+        const sidecar = path.join(root, CODE_RENDER_DIR, msg.path + '.json');
+        const text = await fs.promises.readFile(sidecar, 'utf8');
+        const overview = JSON.parse(text);
+        overview.file = path.resolve(root, msg.path);
+        overview.path = msg.path;
+        if (Array.isArray(overview.usedBy)) {
+          for (const u of overview.usedBy) {
+            if (u && typeof u.file === 'string') {
+              u.absPath = path.join(root, u.file);
+            }
+          }
+        }
+        panel.webview.postMessage({
+          type: 'sidecarOverview', path: msg.path, overview,
+        });
+      } catch (_) {
+        panel.webview.postMessage({
+          type: 'sidecarOverview', path: msg.path, overview: null,
         });
       }
     } else if (msg.type === 'requestSync') {
@@ -3597,6 +3654,20 @@ function updateTaskbar(path) {
 function render(path) {
   const f = FILES[path];
   if (!f || f.kind !== 'md') return;
+  // Light-mode entries (created by collectFolderContents) defer marked.parse
+  // to first click. Fetch html on demand; the mdHtml message handler caches
+  // the result on FILES[path] and re-invokes render().
+  if (!f.html) {
+    main.innerHTML = '<p style="color:var(--sb-muted); padding: 12px 24px; font-family: var(--mono); font-size: 12px;">rendering…</p>';
+    vscode.setState({ path });
+    Object.values(links).forEach(arr => arr.forEach(a => a.classList.remove('active')));
+    if (links[path]) {
+      links[path].forEach(a => a.classList.add('active'));
+      links[path][0].scrollIntoView({ block: 'nearest' });
+    }
+    vscode.postMessage({ type: 'requestMdHtml', path });
+    return;
+  }
   let header = '<div class="filename">' + path;
   if (f.reviewCount) {
     header += ' <a href="#" class="hist-badge" data-history-spec="' + path + '" title="View past reviews of this spec">📝 ' + f.reviewCount + ' review' + (f.reviewCount === 1 ? '' : 's') + '</a>';
@@ -4365,10 +4436,11 @@ function triggerSync(absPath, btnEl) {
   vscode.postMessage({ type: 'requestSync', path: absPath });
 }
 
-// Show the overview for a code file. All sidecars are preloaded into FILES
-// at build time (see collectFiles), so this is purely synchronous — no
-// extension round-trip, no loading placeholder. The Sync button (slow path)
-// is the only thing that talks to the extension.
+// Show the overview for a code file. Eager entries (from collectFiles top-
+// level walk) have an overview preloaded — synchronous render. Light entries
+// (from collectFolderContents lazy-folder expansion) skip the sidecar read;
+// we request it on first click via requestSidecarOverview. If the sidecar
+// doesn't exist, we fall back to the "not initialized" view.
 function requestOverview(relPath, absPath, label) {
   Object.values(links).forEach(arr => arr.forEach(a => a.classList.remove('active')));
   if (links[relPath]) {
@@ -4381,13 +4453,22 @@ function requestOverview(relPath, absPath, label) {
   const file = FILES[relPath];
   const overview = file && file.overview;
   if (overview) {
-    // Patch the absolute path to the local machine's filesystem before render.
     overview.file = absPath;
     overview.path = relPath;
     renderOverview(absPath, overview);
-  } else {
-    renderOverviewNotInit(relPath, absPath, label);
+    return;
   }
+  if (file && !file.sidecarChecked) {
+    // First click on a light-mode code file: ask extension for the sidecar.
+    // sidecarOverview handler sets file.sidecarChecked = true so we don't
+    // re-request on the next click (handled by falling through to NotInit).
+    showOverviewLoading(relPath, label);
+    file._pendingLabel = label;
+    file._pendingAbsPath = absPath;
+    vscode.postMessage({ type: 'requestSidecarOverview', path: relPath });
+    return;
+  }
+  renderOverviewNotInit(relPath, absPath, label);
 }
 
 let pendingOverviewPath = null;
@@ -4685,6 +4766,30 @@ window.addEventListener('message', (event) => {
       'details.lazy-folder[data-path="' + CSS.escape(msg.path) + '"]'
     );
     if (det) renderLazyFolderBody(det, msg.path, msg.items);
+  } else if (msg.type === 'mdHtml') {
+    // Deferred md render completed — cache on FILES and re-render if the
+    // user is still on this file.
+    if (FILES[msg.path]) FILES[msg.path].html = msg.html;
+    const saved = (vscode.getState() || {}).path;
+    if (saved === msg.path) render(msg.path);
+  } else if (msg.type === 'sidecarOverview') {
+    // Deferred sidecar load completed. overview === null => no sidecar exists.
+    const f = FILES[msg.path];
+    if (f) {
+      f.sidecarChecked = true;
+      const label = f._pendingLabel;
+      const absPath = f._pendingAbsPath;
+      delete f._pendingLabel;
+      delete f._pendingAbsPath;
+      const saved = (vscode.getState() || {}).path;
+      if (saved !== msg.path) return;        // user already navigated away
+      if (msg.overview) {
+        f.overview = msg.overview;
+        renderOverview(absPath, msg.overview);
+      } else if (absPath) {
+        renderOverviewNotInit(msg.path, absPath, label);
+      }
+    }
   } else if (msg.type === 'folderContentsError') {
     const det = list.querySelector(
       'details.lazy-folder[data-path="' + CSS.escape(msg.path) + '"]'
