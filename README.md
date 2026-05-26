@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/ChengyueWang/agent-repo-shell/main/icon.png" width="96" alt="Agent Repo Shell" />
+<img src="icon.png" width="96" alt="Agent Repo Shell" />
 
 # Agent Repo Shell
 
