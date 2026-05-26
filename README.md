@@ -24,9 +24,7 @@ Stop bouncing between preview and source. Just edit/review in place.
 
 <div align="center"><img src="images/edit.gif" width="85%" alt="edit markdown in place" /></div>
 
-## 🎨 Sketch Anywhere, AI Sees It
-
-Text not enough to express your idea? Just draw it!
+## 🎨 Text not enough to express your idea? Just draw it!
 
 <div align="center"><img src="images/draw.gif" width="85%" alt="draw on docs" /></div>
 
