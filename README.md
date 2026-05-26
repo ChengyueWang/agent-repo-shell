@@ -20,25 +20,25 @@ Two-level github repos. Brain outside, artifacts inside. Keep all of your contex
 
 ## 📝 Markdown Like Notion
 
-Read AND edit inline. No mode toggle.
+Stop bouncing between preview and source. Just edit/review in place.
 
 ![](images/edit.gif)
 
 ## 🎨 Sketch Anywhere, AI Sees It
 
-Draw on docs → auto-snap for vision AI.
+Text not enough to express your idea? Just draw it!
 
 ![](images/draw.gif)
 
 ## 🔀 Code as Flowchart
 
-I knew you don't read code anymore... But in case you happen to want.. Mermaid graph per file. Click to jump.
+We knew you don't read code anymore. But just in case — here's the flowchart.
 
 ![](images/overview.gif)
 
 ## 🤖 Any AI, Just Copy
 
-Output is markdown. Drop into Claude / Cursor / GPT.
+Markdown out. Paste into whatever AI you trust this week.
 
 ![](images/copy.gif)
 
