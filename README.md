@@ -10,11 +10,11 @@ A doc-centric workspace for agentic coding.
 
 </div>
 
+![](images/hero.png)
+
 ---
 
 ## 📦 Agent shell wraps your repo
-
-![](images/shell-diagram.png)
 
 Brain outside, code inside. No context switch.
 
