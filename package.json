@@ -1,7 +1,7 @@
 {
   "name": "agent-repo-shell",
   "displayName": "Agent Repo Shell",
-  "description": "Browse an agentic / Claude Code workspace as a navigable webview — sidebar tree, LSP-powered file overviews, session history, favorites, hide, in-content find.",
+  "description": "Bootstrap your agentic multi-repos project. Minimum distractions to iterate on specs. A VSCode panel to code like taking notes.",
   "version": "0.0.3",
   "publisher": "ChengyueWang",
   "license": "MIT",
