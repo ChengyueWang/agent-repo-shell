@@ -16,43 +16,43 @@ A doc-centric workspace for agentic coding.
 
 Two-level github repos. Brain outside, artifacts inside. Keep all of your context in one root.
 
-<p align="center"><img src="images/hero.png" width="85%" alt="agent repo shell teaser" /></p>
+<div align="center"><img src="images/hero.png" width="85%" alt="agent repo shell teaser" /></div>
 
 ## 📝 Markdown Like Notion
 
 Stop bouncing between preview and source. Just edit/review in place.
 
-<p align="center"><img src="images/edit.gif" width="85%" alt="edit markdown in place" /></p>
+<div align="center"><img src="images/edit.gif" width="85%" alt="edit markdown in place" /></div>
 
 ## 🎨 Sketch Anywhere, AI Sees It
 
 Text not enough to express your idea? Just draw it!
 
-<p align="center"><img src="images/draw.gif" width="85%" alt="draw on docs" /></p>
+<div align="center"><img src="images/draw.gif" width="85%" alt="draw on docs" /></div>
 
 ## 🔀 Code as Flowchart
 
 We knew you don't read code anymore. But just in case — here's the flowchart.
 
-<p align="center"><img src="images/overview.gif" width="85%" alt="mermaid call graph per file" /></p>
+<div align="center"><img src="images/overview.gif" width="85%" alt="mermaid call graph per file" /></div>
 
 ## 🤖 Any AI, Just Copy
 
 Markdown out. Paste into whatever AI you trust this week.
 
-<p align="center"><img src="images/copy.gif" width="85%" alt="copy markdown into any AI chat" /></p>
+<div align="center"><img src="images/copy.gif" width="85%" alt="copy markdown into any AI chat" /></div>
 
 ## 🧠 ADHD-Friendly Sidebar
 
 Favorites + hide. Keep mental space clear.
 
-<p align="center"><img src="images/sidebar.gif" width="85%" alt="filter + favorites + hide" /></p>
+<div align="center"><img src="images/sidebar.gif" width="85%" alt="filter + favorites + hide" /></div>
 
 ## 🐾 Meet Your Pets
 
-<p align="center"><img src="images/pet03.gif" alt="Pet03 pixel orb" width="75%" /></p>
+<div align="center"><img src="images/pet03.gif" alt="Pet03 pixel orb" width="75%" /></div>
 
-<p align="center"><img src="images/pet04.gif" alt="Pet04 ASCII familiar" width="75%" /></p>
+<div align="center"><img src="images/pet04.gif" alt="Pet04 ASCII familiar" width="75%" /></div>
 
 ---
 
