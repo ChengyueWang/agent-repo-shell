@@ -16,43 +16,43 @@ A doc-centric workspace for agentic coding.
 
 Two-level github repos. Brain outside, artifacts inside. Keep all of your context in one root.
 
-<img src="images/hero.png" width="85%" alt="agent repo shell teaser" />
+<p align="center"><img src="images/hero.png" width="85%" alt="agent repo shell teaser" /></p>
 
 ## 📝 Markdown Like Notion
 
 Stop bouncing between preview and source. Just edit/review in place.
 
-<img src="images/edit.gif" width="85%" alt="edit markdown in place" />
+<p align="center"><img src="images/edit.gif" width="85%" alt="edit markdown in place" /></p>
 
 ## 🎨 Sketch Anywhere, AI Sees It
 
 Text not enough to express your idea? Just draw it!
 
-<img src="images/draw.gif" width="85%" alt="draw on docs" />
+<p align="center"><img src="images/draw.gif" width="85%" alt="draw on docs" /></p>
 
 ## 🔀 Code as Flowchart
 
 We knew you don't read code anymore. But just in case — here's the flowchart.
 
-<img src="images/overview.gif" width="85%" alt="mermaid call graph per file" />
+<p align="center"><img src="images/overview.gif" width="85%" alt="mermaid call graph per file" /></p>
 
 ## 🤖 Any AI, Just Copy
 
 Markdown out. Paste into whatever AI you trust this week.
 
-<img src="images/copy.gif" width="85%" alt="copy markdown into any AI chat" />
+<p align="center"><img src="images/copy.gif" width="85%" alt="copy markdown into any AI chat" /></p>
 
 ## 🧠 ADHD-Friendly Sidebar
 
 Favorites + hide. Keep mental space clear.
 
-<img src="images/sidebar.gif" width="85%" alt="filter + favorites + hide" />
+<p align="center"><img src="images/sidebar.gif" width="85%" alt="filter + favorites + hide" /></p>
 
 ## 🐾 Meet Your Pets
 
-<img src="images/pet03.gif" alt="Pet03 pixel orb" width="75%" />
+<p align="center"><img src="images/pet03.gif" alt="Pet03 pixel orb" width="75%" /></p>
 
-<img src="images/pet04.gif" alt="Pet04 ASCII familiar" width="75%" />
+<p align="center"><img src="images/pet04.gif" alt="Pet04 ASCII familiar" width="75%" /></p>
 
 ---
 
