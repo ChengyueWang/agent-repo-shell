@@ -4,10 +4,9 @@ All notable changes to this extension are documented here.
 
 ## [0.0.3]
 
-- New command **Agent Repo Shell: Install Session Capture Hook** — copies the Claude Code Stop-hook into `tools/hooks/` and registers it in `.claude/settings.json`. Lets you wire history capture into any existing workspace without cloning the [template](https://github.com/ChengyueWang/agent-repo-shell-template). Idempotent.
-- Bundled `save-assistant-response.py` under `resources/hooks/` (ships in the .vsix, ~14 KB).
-- **One-click launch**: pet-icon button in the editor title bar (top-right of each editor tab) + a `$(layout-panel) Agent Repo Shell` status bar item (bottom-right) — both run `Open View` so you don't need to go through the command palette.
-- New setting `agentRepoShell.showEditorTitleIcon` (default true) to toggle the editor-title icon if it feels cluttered.
+- **One-click launch**: pet-icon button in the editor title bar (top-right of each editor tab) + a `$(layout-panel) Agent Repo Shell` status bar item (bottom-right) — both run `Open View` so you don't need to go through the command palette. Toggle the title-bar icon via `agentRepoShell.showEditorTitleIcon` (default true).
+- **Not-an-agent-shell banner**: if the workspace is missing all of `tasks/`, `history/`, and `targets/`, the sidebar shows a coral notice pointing at the [template repo](https://github.com/ChengyueWang/agent-repo-shell-template) instead of silently rendering a near-empty sidebar.
+- **Faster lazy-folder expansion**: `marked.parse` and sidecar JSON reads are now deferred to the first click on each file (instead of running synchronously for every file in the folder being expanded). Folders with many files used to take hundreds of ms; now expansion is essentially instant.
 
 ## [0.0.2]
 

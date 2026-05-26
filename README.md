@@ -58,11 +58,9 @@ Favorites + hide. Keep mental space clear.
 
 ## Get started
 
-**New workspace** — clone the [template](https://github.com/ChengyueWang/agent-repo-shell-template) (click *Use this template* on GitHub). You get the directory layout, sample content, and Claude Code session capture pre-wired.
-
-**Install the extension** — `Cmd/Ctrl+Shift+X` → search **Agent Repo Shell**.
-
-**Existing workspace?** After installing the extension, run `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Install Session Capture Hook** to wire history capture in-place.
+1. Clone the [template](https://github.com/ChengyueWang/agent-repo-shell-template) (click *Use this template* on GitHub). You get the directory layout, sample content, and Claude Code session capture pre-wired.
+2. Install the extension — `Cmd/Ctrl+Shift+X` → search **Agent Repo Shell**.
+3. Open the folder, run `Cmd/Ctrl+Shift+P` → **Agent Repo Shell: Open View**.
 
 ## License
 
