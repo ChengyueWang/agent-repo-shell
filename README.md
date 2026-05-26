@@ -30,7 +30,7 @@ Stop bouncing between preview and source. Just edit/review in place.
 
 ## 🔀 Code as Flowchart
 
-We knew you don't read code anymore... But just in case — here's the flowchart.
+We knew you don't read code anymore... But just in case — here's the flowchart. Mermaid graph per file. Click to jump.
 
 <div align="center"><img src="images/overview.gif" width="85%" alt="mermaid call graph per file" /></div>
 
