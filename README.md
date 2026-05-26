@@ -12,9 +12,9 @@ A doc-centric workspace for agentic coding.
 
 ---
 
-## 🪆 Agent shell wraps your repo
+## 📦 Agent shell wraps your repo
 
-<!-- ![](images/shell-diagram.svg) -->
+<!-- ![](images/shell-diagram.png) -->
 
 Brain outside, code inside. No context switch.
 
@@ -30,7 +30,7 @@ Read AND edit inline. No mode toggle.
 
 Draw on docs → auto-snap for vision AI.
 
-## 🧭 Code as flowchart
+## 🔀 Code as flowchart
 
 <!-- ![](images/overview.gif) -->
 
