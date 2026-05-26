@@ -26,7 +26,7 @@ Read AND edit inline. No mode toggle.
 
 ## 🎨 Sketch anywhere, AI sees it
 
-<!-- ![](images/draw.gif) -->
+![](images/draw.gif)
 
 Draw on docs → auto-snap for vision AI.
 
