@@ -32,7 +32,7 @@ Draw on docs → auto-snap for vision AI.
 
 ## 🔀 Code as flowchart
 
-<!-- ![](images/overview.gif) -->
+![](images/overview.gif)
 
 Mermaid graph per file. Click to jump.
 
