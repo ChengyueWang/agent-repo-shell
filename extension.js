@@ -3491,18 +3491,12 @@ const list = document.getElementById('filelist');
   if (SHELL_META.isValid) return;
   const el = document.getElementById('shell-warning');
   if (!el) return;
-  const missing = SHELL_META.missingDirs.map(d =>
-    '<code>' + d + '/</code>'
-  ).join(', ');
   el.innerHTML =
     '<b>Not an agent-repo-shell</b>' +
-    "<div>This folder is missing " + missing +
-    ", so the panel won't have much to show.</div>" +
+    '<div>This folder is not the expected agent-repo-shell repo format.</div>' +
     '<div style="margin-top:8px">Start from the ' +
-    '<a href="https://github.com/ChengyueWang/agent-repo-shell-template">template</a>' +
-    ' (click <em>Use this template</em>), or run ' +
-    '<code>Agent Repo Shell: Install Session Capture Hook</code> ' +
-    'to bootstrap an existing repo.</div>';
+    '<a href="https://github.com/ChengyueWang/agent-repo-shell-template">agent-repo-shell-template</a>' +
+    ' (click <em>Use this template</em>).</div>';
   el.hidden = false;
 })();
 
