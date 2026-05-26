@@ -14,7 +14,7 @@ A doc-centric workspace for agentic coding.
 
 ## 📦 Agent shell wraps your repo
 
-<!-- ![](images/shell-diagram.png) -->
+![](images/shell-diagram.png)
 
 Brain outside, code inside. No context switch.
 
