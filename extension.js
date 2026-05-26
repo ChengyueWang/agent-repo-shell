@@ -3680,6 +3680,12 @@ ALWAYS_SHOW.forEach(d => {
 // Collapsed-state persistence keyed by section name.
 const collapsedKey = 'collapsedSections';
 const collapsed = new Set(JSON.parse(localStorage.getItem(collapsedKey) || '[]'));
+// Lazy folders use opposite semantics: default CLOSED, only paths the user
+// has explicitly opened are remembered. Without this, expanding one folder
+// cascades open every nested folder the user has never touched, which
+// triggers a flood of requestFolderContents on each chevron click.
+const expandedLazyKey = 'expandedLazyFolders';
+const expandedLazy = new Set(JSON.parse(localStorage.getItem(expandedLazyKey) || '[]'));
 function makeSection(name, dataPath, dataKind) {
   const det = document.createElement('details');
   det.className = 'section';
@@ -3846,7 +3852,10 @@ function makeSubSection(dir, label) {
 function makeLazyFolder(f) {
   const det = document.createElement('details');
   det.className = 'sub-section lazy-folder';
-  det.open = !collapsed.has(f.path);
+  // Default CLOSED for lazy folders. Only paths the user has explicitly
+  // expanded in a prior session are reopened — this avoids the cascade
+  // where opening one folder auto-expands every never-touched child.
+  det.open = expandedLazy.has(f.path);
   det.dataset.path = f.path;
   det.dataset.kind = 'folder';
 
@@ -3882,16 +3891,16 @@ function makeLazyFolder(f) {
 
   det.addEventListener('toggle', () => {
     if (det.open) {
-      collapsed.delete(f.path);
+      expandedLazy.add(f.path);
       requestLoad();
     } else {
-      collapsed.add(f.path);
+      expandedLazy.delete(f.path);
     }
-    localStorage.setItem(collapsedKey, JSON.stringify([...collapsed]));
+    localStorage.setItem(expandedLazyKey, JSON.stringify([...expandedLazy]));
   });
 
-  // If the folder was already open per persisted state, eagerly kick off
-  // the load so the user doesn't see an empty body.
+  // Eagerly kick off the load only if we're starting open (i.e. the user
+  // explicitly opened this path in a prior session).
   if (det.open) requestLoad();
   return det;
 }
