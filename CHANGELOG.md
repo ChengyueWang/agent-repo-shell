@@ -6,6 +6,8 @@ All notable changes to this extension are documented here.
 
 - New command **Agent Repo Shell: Install Session Capture Hook** — copies the Claude Code Stop-hook into `tools/hooks/` and registers it in `.claude/settings.json`. Lets you wire history capture into any existing workspace without cloning the [template](https://github.com/ChengyueWang/agent-repo-shell-template). Idempotent.
 - Bundled `save-assistant-response.py` under `resources/hooks/` (ships in the .vsix, ~14 KB).
+- **One-click launch**: pet-icon button in the editor title bar (top-right of each editor tab) + a `$(layout-panel) Agent Repo Shell` status bar item (bottom-right) — both run `Open View` so you don't need to go through the command palette.
+- New setting `agentRepoShell.showEditorTitleIcon` (default true) to toggle the editor-title icon if it feels cluttered.
 
 ## [0.0.2]
 

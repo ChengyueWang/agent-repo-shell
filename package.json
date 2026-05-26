@@ -47,7 +47,8 @@
     "commands": [
       {
         "command": "agentRepoShell.openView",
-        "title": "Agent Repo Shell: Open View"
+        "title": "Agent Repo Shell: Open View",
+        "icon": "icon.png"
       },
       {
         "command": "agentRepoShell.previewOverview",
@@ -57,7 +58,26 @@
         "command": "agentRepoShell.installSessionHook",
         "title": "Agent Repo Shell: Install Session Capture Hook"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "agentRepoShell.openView",
+          "group": "navigation",
+          "when": "config.agentRepoShell.showEditorTitleIcon"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Agent Repo Shell",
+      "properties": {
+        "agentRepoShell.showEditorTitleIcon": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a one-click 'Open View' icon in the editor title bar (top-right of each editor tab)."
+        }
+      }
+    }
   },
   "dependencies": {
     "@recogito/text-annotator": "^4.1.0",

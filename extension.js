@@ -1512,6 +1512,17 @@ function activate(context) {
     vscode.commands.registerCommand('agentRepoShell.previewOverview', previewOverview),
     vscode.commands.registerCommand('agentRepoShell.installSessionHook', () => installSessionHook(context)),
   );
+
+  // Status bar quick-launch: always visible (even with no editor open),
+  // complements the editor/title icon contribution in package.json.
+  const statusItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right, 100
+  );
+  statusItem.text = '$(layout-panel) Agent Repo Shell';
+  statusItem.tooltip = 'Open Agent Repo Shell view';
+  statusItem.command = 'agentRepoShell.openView';
+  statusItem.show();
+  context.subscriptions.push(statusItem);
 }
 
 function deactivate() { }
