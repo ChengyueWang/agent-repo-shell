@@ -4,7 +4,7 @@
 
 # Agent Repo Shell
 
-A doc-centric workspace for agentic coding.
+Bootstrap your agentic multi-repos project. Minimum distractions to iterate on specs.
 
 [![Marketplace](https://img.shields.io/visual-studio-marketplace/v/ChengyueWang.agent-repo-shell?label=marketplace&color=F08A65)](https://marketplace.visualstudio.com/items?itemName=ChengyueWang.agent-repo-shell) · [![License](https://img.shields.io/badge/license-MIT-F08A65.svg)](LICENSE)
 
@@ -12,9 +12,9 @@ A doc-centric workspace for agentic coding.
 
 ---
 
-## 📦 Agent Shell Wraps Your Repo
+## 📦 Agent Shell Wraps Your Repos
 
-Two-level github repos. Brain outside, artifacts inside. Keep all of your context in one root.
+Two-level github repos. Brain mess outside, artifacts clean inside. Keep all of your context in one root.
 
 <div align="center"><img src="images/hero.png" width="85%" alt="agent repo shell teaser" /></div>
 
