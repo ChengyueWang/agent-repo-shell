@@ -308,8 +308,28 @@ function escapeAttr(s) {
   }[c]));
 }
 
-function getHtml(webview, hljsCssUri, mermaidJsUri, recogitoJsUri, recogitoCssUri, turndownJsUri, html2canvasJsUri, title, files) {
+// Detect whether the workspace looks like an agent-repo-shell. Heuristic:
+// the canonical layout has tasks/, history/, and targets/ at the root. If
+// ZERO of those three are present, the user almost certainly opened the
+// wrong folder — we tell them and link to the template instead of
+// silently rendering a near-empty sidebar.
+function detectShellValidity(root) {
+  const requiredAny = ['tasks', 'history', 'targets'];
+  const presentDirs = requiredAny.filter(d => {
+    try { return fs.statSync(path.join(root, d)).isDirectory(); }
+    catch (_) { return false; }
+  });
+  return {
+    isValid: presentDirs.length > 0,
+    presentDirs,
+    missingDirs: requiredAny.filter(d => !presentDirs.includes(d)),
+  };
+}
+
+function getHtml(webview, hljsCssUri, mermaidJsUri, recogitoJsUri, recogitoCssUri, turndownJsUri, html2canvasJsUri, title, files, shellMeta) {
   const data = JSON.stringify(files).replace(/<\//g, '<\\/');
+  const meta = JSON.stringify(shellMeta || { isValid: true, presentDirs: [], missingDirs: [] })
+    .replace(/<\//g, '<\\/');
   return TEMPLATE
     .replaceAll('__TITLE__', escapeAttr(title))
     .replace('__HLJS_CSS__', hljsCssUri.toString())
@@ -318,7 +338,8 @@ function getHtml(webview, hljsCssUri, mermaidJsUri, recogitoJsUri, recogitoCssUr
     .replace('__RECOGITO_CSS__', recogitoCssUri.toString())
     .replace('__TURNDOWN_JS__', turndownJsUri.toString())
     .replace('__HTML2CANVAS_JS__', html2canvasJsUri.toString())
-    .replace('__DATA__', data);
+    .replace('__DATA__', data)
+    .replace('__SHELL_META__', meta);
 }
 
 // Tracks the most recent open panel so module-level commands (e.g. the
@@ -396,6 +417,7 @@ function openView(context) {
   const refresh = () => {
     const files = collectFiles(root);
     Object.assign(files, collectSessions(root));
+    const shellMeta = detectShellValidity(root);
     const hljsCssUri = panel.webview.asWebviewUri(vscode.Uri.file(hljsCssPath));
     const mermaidJsUri = panel.webview.asWebviewUri(vscode.Uri.file(mermaidJsPath));
     const recogitoJsUri = panel.webview.asWebviewUri(vscode.Uri.file(recogitoJsPath));
@@ -405,7 +427,7 @@ function openView(context) {
     panel.webview.html = getHtml(
       panel.webview, hljsCssUri, mermaidJsUri,
       recogitoJsUri, recogitoCssUri, turndownJsUri, html2canvasJsUri,
-      title, files,
+      title, files, shellMeta,
     );
   };
   refresh();
@@ -1720,6 +1742,36 @@ const TEMPLATE = String.raw`<!DOCTYPE html>
   /* Filter-hide marker — wins over the various display:flex/block defaults
      on anchors and details elements. */
   .filter-hide { display: none !important; }
+  /* Shell-shape warning at the bottom of the sidebar — shown when the
+     workspace doesn't look like an agent-repo-shell (no tasks/, history/,
+     or targets/ at the root). Points the user at the template. */
+  .shell-warning {
+    margin-top: 28px;
+    padding: 12px 14px;
+    background: rgba(204, 107, 79, 0.08);
+    border: 1px solid rgba(204, 107, 79, 0.4);
+    border-radius: 6px;
+    font-family: var(--sb-mono);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--sb-fg-soft);
+  }
+  .shell-warning[hidden] { display: none; }
+  .shell-warning b {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sb-coral);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .shell-warning a { color: var(--sb-coral); }
+  .shell-warning code {
+    background: rgba(0,0,0,0.04);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
   /* Rounded-outline star icon (cartoon style). The path is from Heroicons
      (MIT). currentColor lets it pick up text color; per-use overrides set
      coral for favorites. */
@@ -3347,6 +3399,7 @@ const TEMPLATE = String.raw`<!DOCTYPE html>
   </div>
 </div>
 <div id="filelist"></div>
+<div id="shell-warning" class="shell-warning" hidden></div>
 </nav>
 <div class="divider" id="divider"></div>
 <main id="content"><p style="color:var(--g500)">Loading…</p></main>
@@ -3426,7 +3479,30 @@ const TEMPLATE = String.raw`<!DOCTYPE html>
 <script>
 const vscode = acquireVsCodeApi();
 const FILES = __DATA__;
+const SHELL_META = __SHELL_META__;
 const list = document.getElementById('filelist');
+
+// Show a "not an agent-repo-shell" banner at the bottom of the sidebar if
+// the workspace folder is missing tasks/, history/, AND targets/.
+(function renderShellWarning() {
+  if (SHELL_META.isValid) return;
+  const el = document.getElementById('shell-warning');
+  if (!el) return;
+  const missing = SHELL_META.missingDirs.map(d =>
+    '<code>' + d + '/</code>'
+  ).join(', ');
+  el.innerHTML =
+    '<b>Not an agent-repo-shell</b>' +
+    "<div>This folder is missing " + missing +
+    ", so the panel won't have much to show.</div>" +
+    '<div style="margin-top:8px">Start from the ' +
+    '<a href="https://github.com/ChengyueWang/agent-repo-shell-template">template</a>' +
+    ' (click <em>Use this template</em>), or run ' +
+    '<code>Agent Repo Shell: Install Session Capture Hook</code> ' +
+    'to bootstrap an existing repo.</div>';
+  el.hidden = false;
+})();
+
 const main = document.getElementById('content');
 const toastEl = document.getElementById('toast');
 // links[path] is an ARRAY of anchor elements (a path can appear in both the
