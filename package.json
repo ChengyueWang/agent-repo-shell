@@ -1,0 +1,63 @@
+{
+  "name": "agent-repo-shell",
+  "displayName": "Agent Repo Shell",
+  "description": "Browse an agentic / Claude Code workspace as a navigable webview — sidebar tree, LSP-powered file overviews, session history, favorites, hide, in-content find.",
+  "version": "0.0.1",
+  "publisher": "chengyuewang",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "AI",
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "agent",
+    "agentic",
+    "claude",
+    "claude-code",
+    "anthropic",
+    "repo browser",
+    "sidebar",
+    "markdown",
+    "webview",
+    "file overview",
+    "lsp",
+    "viewer",
+    "navigation"
+  ],
+  "main": "./extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChengyueWang/agent-repo-shell.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChengyueWang/agent-repo-shell/issues"
+  },
+  "homepage": "https://github.com/ChengyueWang/agent-repo-shell#readme",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "agentRepoShell.openView",
+        "title": "Agent Repo Shell: Open View"
+      },
+      {
+        "command": "agentRepoShell.previewOverview",
+        "title": "Agent Repo Shell: Preview File Overview"
+      }
+    ]
+  },
+  "dependencies": {
+    "@recogito/text-annotator": "^4.1.0",
+    "highlight.js": "^11.9.0",
+    "html2canvas": "^1.4.1",
+    "markdown-it": "^14.2.0",
+    "marked": "^12.0.0",
+    "marked-highlight": "^2.2.4",
+    "mermaid": "^10.9.1",
+    "turndown": "^7.2.4"
+  }
+}

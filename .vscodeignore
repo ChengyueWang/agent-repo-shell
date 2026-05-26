@@ -1,0 +1,16 @@
+.vscode/**
+.git/**
+.gitignore
+.gitattributes
+**/*.map
+**/.DS_Store
+node_modules/**/test/**
+node_modules/**/tests/**
+node_modules/**/*.md
+node_modules/**/*.ts
+node_modules/**/*.flow
+node_modules/**/CHANGELOG*
+node_modules/**/HISTORY*
+node_modules/**/.github/**
+node_modules/**/.bin/**
+*.vsix
