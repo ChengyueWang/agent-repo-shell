@@ -50,9 +50,9 @@ Favorites + hide. Keep mental space clear.
 
 ## 🐾 MEET YOUR PETS
 
-<img src="images/pet03.gif" alt="Pet03 pixel orb" width="50%" />
+<img src="images/pet03.gif" alt="Pet03 pixel orb" width="75%" />
 
-<img src="images/pet04.gif" alt="Pet04 ASCII familiar" width="50%" />
+<img src="images/pet04.gif" alt="Pet04 ASCII familiar" width="75%" />
 
 ---
 
