@@ -113,21 +113,11 @@ Most paths are opinionated defaults useful for "agent repo" style workspaces, bu
 
 ## 📦 Install
 
-**From the marketplace** (recommended):
-
 ```
 Cmd/Ctrl+Shift+X → search "Agent Repo Shell" → Install
 ```
 
-**From a `.vsix`**:
-
-```bash
-git clone https://github.com/ChengyueWang/agent-repo-shell.git
-cd agent-repo-shell
-npm install
-npx @vscode/vsce package
-code --install-extension agent-repo-shell-*.vsix
-```
+Or from the [Marketplace listing](https://marketplace.visualstudio.com/items?itemName=ChengyueWang.agent-repo-shell).
 
 ---
 
@@ -139,21 +129,9 @@ code --install-extension agent-repo-shell-*.vsix
 
 ---
 
-## 🛠 Development
-
-```bash
-git clone https://github.com/ChengyueWang/agent-repo-shell.git
-cd agent-repo-shell
-npm install
-```
-
-Open in VSCode, press **F5**. A new "Extension Development Host" launches with the extension loaded — open any folder as the test workspace and run **Agent Repo Shell: Open View**.
-
----
-
 ## 📜 License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). Want to hack on this? See [DEVELOPMENT.md](https://github.com/ChengyueWang/agent-repo-shell/blob/main/DEVELOPMENT.md).
 
 ### Acknowledgements
 
